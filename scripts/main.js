@@ -20,18 +20,19 @@ FUTURE FEATURES:
 
 var game = {
   cycle: function(e){
-    var tilePos = getTile(e); // Sets the [row,col]
-    if (!tilePos) {
+    this.activeTile = getTile(e); // Sets the [row,col]
+    if (!this.activeTile) {
       return false;
     }
-    world.populate(tilePos);
-    // writeOrganism(tile,world);
+    world.createTemp();
+    world.populate(this.activeTile);
     world.print();
   }
 };
 
 var world = {
   tiles: [],
+  tempTiles: [],
   day: 0,
   activeTile: false,
 
@@ -53,6 +54,20 @@ var world = {
         }
       }
     }
+  },
+
+  createTemp: function () {
+    var tempWorld = [], tempTile;
+
+    for (var i = 0; i < this.tiles.length; i++) {
+      tempWorld.push([]);
+      for (var k = 0; k < this.tiles[i].length; k++) {
+        tempTile = this.tiles[i][k];
+        tempWorld[i].push(tempTile);
+      }
+    }
+
+    this.tempTiles = tempWorld;
   },
 
   // Main game function
