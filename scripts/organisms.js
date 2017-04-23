@@ -12,6 +12,7 @@ function Organism() {
   this.turns = 0;
   this.stage = 0;
   this.stages = [0];
+  this.speed = 0;
 }
 
 Organism.prototype.activate = function() {
