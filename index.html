@@ -1,0 +1,18 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./css/main.css"></link>
+  <script type="text/javascript" src="./scripts/main.js"></script>
+  <script type="text/javascript" src="./scripts/render.js"></script>
+  <script type="text/javascript" src="./scripts/helpers.js"></script>
+  <script type="text/javascript" src="./scripts/organisms.js"></script>
+  <script type="text/javacript">var world</script>
+  <script type="text/javacript">var turn</script>
+  <script type="text/javascript">
+    document.addEventListener('click', function(e){game.cycle(e);});</script>
+</head>
+<body>
+  <div class="board" id="board">
+    <button class="button-start" id="start-button" onclick="newGame()">New Game</button>
+  </div>
+</body>
+</html>

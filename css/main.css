@@ -1,0 +1,77 @@
+.board {
+  width: 385px;
+  height: 385px;
+  background-color: #ededed;
+  margin: 30px auto;
+}
+
+.board-tile {
+  width: 48px;
+  height: 48px;
+  /*margin-left: 1px;
+  margin-top: 1px;*/
+  position: relative;
+  display: block;
+  float: left;
+  background: white;
+}
+
+.button-start {
+  position: relative;
+  width: 200px;
+  height: 80px;
+  border: 1px solid #999;
+  border-radius: 10px;
+  background-color: white;
+  left: 93;
+  top: 152;
+}
+
+.board-tile:after {
+  position: relative;
+  left: 17;
+  top: 13;
+}
+
+.earth {
+  background-image: url("../assets/earth.png");
+  background-size: contain;
+}
+
+.earth:hover {
+  background-image: url("../assets/earth-hover.png");
+  background-size: contain;
+}
+
+.seed {
+  background-image: url("../assets/seeds.png");
+  background-size: contain;
+}
+
+.seed:hover {
+  background-image: url("../assets/seeds-hover.png");
+  background-size: contain;
+}
+
+.grass {
+  background-image: url("../assets/grass.png");
+  background-size: contain;
+}
+
+.grass:hover {
+  background-image: url("../assets/grass-hover.png");
+  background-size: contain;
+}
+
+.organism {
+  background-color: #ededed;
+}
+
+.organism:after {
+  content: "o";
+}
+
+/*.board-tile:hover {
+  background: rgba(255,255,255,0.7);
+  transition: ease all .3s;
+}*/
