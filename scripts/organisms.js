@@ -26,8 +26,10 @@ Organism.prototype.cornerNeighbors = function(){
   // Get the organisms up-left/up-right/down-left/down-right of this
 };
 
-function Earth() {
-  // Earth attributes added here
+function Earth(row,col) {
+  this.update = 1;
+  this.row = row;
+  this.col = col;
 }
 Earth.prototype = new Organism();
 Earth.prototype.constructor = Earth;
@@ -38,16 +40,11 @@ Earth.prototype.activate = function() {
   return new Seed();
 };
 
-// function Earth() {
-//   this.rules = function() {
-//
-//   };
-//   this.activate = function() {
-//     return new Seed();
-//   };
-// }
-function Seed() {
+function Seed(row,col) {
   this.delay = Math.floor(Math.random() * 2)+3; // takes 3 turns to become Grass
+  this.update = 2;
+  this.row = row;
+  this.col = col;
 }
 Seed.prototype = new Organism();
 Seed.prototype.constructor = Seed;
@@ -60,9 +57,12 @@ Seed.prototype.rules = function() {
 };
 
 
-function Grass() {
+function Grass(row,col) {
   this.life = Math.floor(Math.random() * 3)+28; // lasts for 5 turns and then decomposes
   this.stages = [0,8];
+  this.update = 3;
+  this.row = row;
+  this.col = col;
 }
 Grass.prototype = new Organism();
 Grass.prototype.constructor = Grass;
@@ -74,9 +74,12 @@ Grass.prototype.rules = function() {
   return this;
 };
 
-function Tree() {
+function Tree(row,col) {
   this.life = Math.floor(Math.random() * 3)+28; // lasts for 5 turns and then decomposes
   this.stages = [0,8];
+  this.update = 4;
+  this.row = row;
+  this.col = col;
 }
 Tree.prototype = new Organism();
 Tree.prototype.constructor = Tree;

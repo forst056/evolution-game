@@ -40,7 +40,8 @@ var world = {
   day: 0,
   activeTile: false,
 
-  // Create the initial board
+  // ONLY USED DURING INITIALIZING NEW BOARD
+  // Create the initial world
   create: function (size) {
     var rows = size;
     var cols = size;
@@ -51,15 +52,17 @@ var world = {
       for (var j = 0; j < rows; j++) {
         chance = Math.random();
         if (chance < 0.10) {
-          this.tiles[i].push(new Grass());
+          this.tiles[i].push(new Grass(i,j));
         }
         else {
-          this.tiles[i].push(new Earth());
+          this.tiles[i].push(new Earth(i,j));
         }
       }
     }
   },
 
+  // ONLY USED DURING INITIALIZING NEW BOARD
+  // Create the initial temp world
   createTemp: function () {
     var tempWorld = [], tempTile;
 
@@ -83,6 +86,25 @@ var world = {
     if ('activate' in tempTile) {
       tempTile = tempTile.activate();
       this.tempTiles[row][col] = tempTile;
+    }
+    return false;
+  },
+
+  getUpdateOrder: function() {
+    var tempTiles = {};
+    var row, col, pos, order, tempTile;
+    for (var i = 0; i < this.tiles.length; i++) {
+      for (var j = 0; j < this.tiles[i].length; j++) {
+        tempTile = this.tiles[i][j];
+        row = tempTile.row;
+        col = tempTile.col;
+        pos = [row,col];
+        update = tempTile.update;
+        if (!(update in tempTiles)) {
+          tempTiles[update] = [];
+        }
+        tempTiles[update].push(pos);
+      }
     }
     return false;
   },
