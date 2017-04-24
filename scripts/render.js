@@ -36,6 +36,7 @@ newGame = function () {
   var button = document.getElementById("start-button");
   button.parentNode.removeChild(button);
   world.create(8);
+  world.createTemp();
   writeNewBoard();
   world.print();
 };
@@ -48,13 +49,13 @@ getTile = function(e) {
     var array = id.split("-");
     var row = parseInt(array[1]);
     var col = parseInt(array[2]);
-    var tile = [row, col];
+    var tilePos = [row, col];
 
     if (world.tiles[row][col] > 0) {
       return false;
     }
 
-    return tile;
+    return tilePos;
   }
   return false;
 };
@@ -64,9 +65,3 @@ getStage = function(tile) {
     var t = getElementById()
   }
 };
-
-// writeOrganism = function(tile) {
-//   var row = tile[0];
-//   var col = tile[1];
-//   world.tiles[row][col] = new Seed();
-// };

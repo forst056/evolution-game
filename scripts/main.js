@@ -3,6 +3,7 @@
 BUGS: None
 
 NEXT STEPS:
+
 - Rework populate function to be object based, rather than loop through tiles
   Populate should function on levels starting with the highest order
   and working its way down the food chain (Tree -> Grass -> Seed)
@@ -20,12 +21,15 @@ FUTURE FEATURES:
 
 var game = {
   cycle: function(e){
-    this.activeTile = getTile(e); // Sets the [row,col]
-    if (!this.activeTile) {
+    if (!getTile(e)) {
       return false;
     }
+    var activeTile = getTile(e);
+    world.activeTile = activeTile;
     world.createTemp();
-    world.populate(this.activeTile);
+    world.activateTile();
+    world.runRules();
+    world.populate();
     world.print();
   }
 };
@@ -70,35 +74,35 @@ var world = {
     this.tempTiles = tempWorld;
   },
 
-  // Main game function
-  populate: function (tilePos) {
+  // Activates the last clicked tile
+  activateTile: function() {
+    var tilePos = this.activeTile;
     var row = tilePos[0];
     var col = tilePos[1];
-    var temp = [], tempTile;
+    var tempTile = this.tempTiles[row][col];
+    if ('activate' in tempTile) {
+      tempTile = tempTile.activate();
+      this.tempTiles[row][col] = tempTile;
+    }
+    return false;
+  },
 
-    for (var i = 0; i < this.tiles.length; i++) {
-      temp.push([]);
-      for (var j = 0; j < this.tiles[i].length; j++) {
-
-        tempTile = this.tiles[i][j];
-
-        if ( i == row && j == col) {
-            if ('activate' in tempTile) {
-                tempTile = tempTile.activate();
-            }
-        }
-        else {
-            tempTile = tempTile.rules();
-            tempTile.turns += 1;
-            // if (getNextStage(tempTile)) {
-            //
-            // }
-        }
-
-        temp[i].push(tempTile);
+  runRules: function() {
+    var tempTiles = [], tempTile;
+    for (var i = 0; i < this.tempTiles.length; i++) {
+      tempTiles.push([]);
+      for (var j = 0; j < this.tempTiles[i].length; j++) {
+        tempTile = this.tempTiles[i][j];
+        tempTile = tempTile.rules();
+        tempTiles[i].push(tempTile);
       }
     }
-    this.tiles = temp;
+    this.tempTiles = tempTiles;
+  },
+
+  // Main game function
+  populate: function () {
+    this.tiles = this.tempTiles;
   },
 
   // Renders the current world.tiles matrix
