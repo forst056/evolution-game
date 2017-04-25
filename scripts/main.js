@@ -7,6 +7,7 @@ NEXT STEPS:
 - Rework populate function to be object based, rather than loop through tiles
   Populate should function on levels starting with the highest order
   and working its way down the food chain (Tree -> Grass -> Seed)
+- Use getUpdateOrder() in runRules() to run rules in order
 
 FUTURE FEATURES:
 - Create more organisms
@@ -159,44 +160,45 @@ var world = {
 };
 
 // Takes a cell in the matrix and returns its cardinal neighbors
-getSurroundingTiles = function(row,col) {
-  var u = [row-1, col];
-  var r = [row, col+1];
-  var d = [row+1, col];
-  var l = [row, col-1];
-
-  if (row === 0) {
-    u = false;
-  }
-  if (row === 7) {
-    d = false;
-  }
-  if (col === 0) {
-    l = false;
-  }
-  if (col === 7) {
-    r = false;
-  }
-
-  var tiles = [u,r,d,l];
-  return tiles;
-};
-
-// Takes an array of cells and returns their values in the matrix
-getSurroundingValues = function(tiles) {
-  var values = [];
-  for (var i = 0; i < tiles.length; i++) {
-    var x = tiles[i][0];
-    var y = tiles[i][1];
-    if (tiles[i]) {
-      values.push(world.tiles[x][y]);
-    }
-    else {
-      values.push(-1);
-    }
-  }
-  return values;
-};
+// getSurroundingTiles = function(row,col) {
+//   var n = [row-1, col];
+//   var e = [row, col+1];
+//   var s = [row+1, col];
+//   var w = [row, col-1];
+//
+//   var tiles =
+//   if (row === 0) {
+//     n = false;
+//   }
+//   if (row === 7) {
+//     s = false;
+//   }
+//   if (col === 0) {
+//     w = false;
+//   }
+//   if (col === 7) {
+//     e = false;
+//   }
+//
+//   var tiles = [n, e, s, w];
+//   return tiles;
+// };
+//
+// // Takes an array of cells and returns their values in the matrix
+// getSurroundingValues = function(tiles) {
+//   var values = [];
+//   for (var i = 0; i < tiles.length; i++) {
+//     var x = tiles[i][0];
+//     var y = tiles[i][1];
+//     if (tiles[i]) {
+//       values.push(world.tiles[x][y]);
+//     }
+//     else {
+//       values.push(-1);
+//     }
+//   }
+//   return values;
+// };
 
 getNextStage = function (tile) {
   if (tile.turns >= tile.stages[tile.stage]) {

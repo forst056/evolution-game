@@ -19,11 +19,36 @@ Organism.prototype.activate = function() {
   return new Earth();
 };
 
-Organism.prototype.cardinalNeighbors = function(){
-  return true;// Get the organisms up/down/left/right of this
+Organism.prototype.neighbors = function(){
+  var n = [this.row - 1, this.col];
+  var e = [this.row, this.col + 1];
+  var s = [this.row + 1, this.col];
+  var w = [this.row, this.col - 1];
+  var neighbors = [n, e, s, w];
+
+  for (var i = 0; i < neighbors.length; i++) {
+    if (neighbors[i].includes(-1) || neighbors[i].includes(8)) {
+      neighbors[i] = false;
+    }
+  }
+
+  return neighbors;
 };
+
 Organism.prototype.cornerNeighbors = function(){
-  // Get the organisms up-left/up-right/down-left/down-right of this
+  var nw = [this.row - 1, this.col - 1];
+  var ne = [this.row - 1 , this.col + 1];
+  var se = [this.row + 1, this.col + 1];
+  var sw = [this.row + 1, this.col - 1];
+  var cNeighbors = [nw, ne, se, sw];
+
+  for (var i = 0; i < cNeighbors.length; i++) {
+    if (cNeighbors[i].includes(-1) || cNeighbors[i].includes(8)) {
+      cNeighbors[i] = false;
+    }
+  }
+
+  return cNeighbors;
 };
 
 function Earth(row,col) {
@@ -58,7 +83,7 @@ Seed.prototype.rules = function() {
 
 
 function Grass(row,col) {
-  this.life = Math.floor(Math.random() * 3)+28; // lasts for 5 turns and then decomposes
+  this.life = Math.floor(Math.random() * 3)+28; // lasts for 28-30 turns and then decomposes
   this.stages = [0,8];
   this.update = 3;
   this.row = row;
@@ -66,6 +91,17 @@ function Grass(row,col) {
 }
 Grass.prototype = new Organism();
 Grass.prototype.constructor = Grass;
+Grass.prototype.check = function() {
+  var n = this.neighbors();
+  console.log(world.tiles[n[0]]);
+  var i = n.length;
+  while (i--) {
+    if (world.tiles[n[i]] !== Grass) {
+      return this;
+    }
+    return new Tree(this.row,this.col);
+  }
+}
 Grass.prototype.rules = function() {
   this.life -= 1;
   if (!this.life) {
@@ -75,7 +111,7 @@ Grass.prototype.rules = function() {
 };
 
 function Tree(row,col) {
-  this.life = Math.floor(Math.random() * 3)+28; // lasts for 5 turns and then decomposes
+  this.life = Math.floor(Math.random() * 3)+28; // lasts for 28-30 turns and then decomposes
   this.stages = [0,8];
   this.update = 4;
   this.row = row;
