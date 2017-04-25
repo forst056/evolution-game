@@ -29,6 +29,7 @@ var game = {
     world.activeTile = activeTile;
     world.createTemp();
     world.activateTile();
+    world.runCheck();
     world.runRules();
     world.populate();
     world.print();
@@ -52,7 +53,7 @@ var world = {
       this.tiles.push([]);
       for (var j = 0; j < rows; j++) {
         chance = Math.random();
-        if (chance < 0.10) {
+        if (chance < .15) {
           this.tiles[i].push(new Grass(i,j));
         }
         else {
@@ -110,6 +111,21 @@ var world = {
     return false;
   },
 
+  runCheck: function() {
+    var tempTiles = [], tempTile;
+    for (var i = 0; i < this.tempTiles.length; i++) {
+      tempTiles.push([]);
+      for (var j = 0; j < this.tempTiles[i].length; j++) {
+        tempTile = this.tempTiles[i][j];
+        if (typeof tempTile.check === 'function') {
+          tempTile = tempTile.check();
+        }
+        tempTiles[i].push(tempTile);
+      }
+    }
+    this.tempTiles = tempTiles;
+  },
+
   runRules: function() {
     var tempTiles = [], tempTile;
     for (var i = 0; i < this.tempTiles.length; i++) {
@@ -148,6 +164,8 @@ var world = {
           case Grass:
             tile.className += " grass";
             break;
+          case Tree:
+            tile.className += " tree";
           default:
             break;
         }

@@ -63,6 +63,16 @@
   background-size: contain;
 }
 
+.tree {
+  background-image: url("../assets/tree.png");
+  background-size: contain;
+}
+
+.tree:hover {
+  background-image: url("../assets/tree-hover.png");
+  background-size: contain;
+}
+
 .organism {
   background-color: #ededed;
 }

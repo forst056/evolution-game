@@ -62,7 +62,7 @@ Earth.prototype.rules = function() {
   return this;
 };
 Earth.prototype.activate = function() {
-  return new Seed();
+  return new Seed(this.row, this.col);
 };
 
 function Seed(row,col) {
@@ -76,7 +76,7 @@ Seed.prototype.constructor = Seed;
 Seed.prototype.rules = function() {
   this.delay -= 1;
   if (!this.delay) {
-    return new Grass();
+    return new Grass(this.row, this.col);
   }
   return this;
 };
@@ -93,19 +93,25 @@ Grass.prototype = new Organism();
 Grass.prototype.constructor = Grass;
 Grass.prototype.check = function() {
   var n = this.neighbors();
-  console.log(world.tiles[n[0]]);
+  var n0, n1, thisTile;
   var i = n.length;
   while (i--) {
-    if (world.tiles[n[i]] !== Grass) {
-      return this;
+    if (n[i]) {
+      n0 = n[i][0];
+      n1 = n[i][1];
+      thisTile = world.tiles[n0][n1];
+      if (!(thisTile instanceof Grass)) {
+        return this;
+      }
+      return new Tree(this.row,this.col);
     }
-    return new Tree(this.row,this.col);
+    return this;
   }
 }
 Grass.prototype.rules = function() {
   this.life -= 1;
   if (!this.life) {
-    return new Earth();
+    return new Earth(this.row, this.col);
   }
   return this;
 };
@@ -122,7 +128,7 @@ Tree.prototype.constructor = Tree;
 Tree.prototype.rules = function() {
   this.life -= 1;
   if (!this.life) {
-    return new Earth();
+    return new Earth(this.row, this.col);
   }
   return this;
 };
