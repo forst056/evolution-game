@@ -113,10 +113,10 @@ var world = {
 
   runCheck: function() {
     var tempTiles = [], tempTile;
-    for (var i = 0; i < this.tempTiles.length; i++) {
+    for (var i = 0; i < this.tiles.length; i++) {
       tempTiles.push([]);
-      for (var j = 0; j < this.tempTiles[i].length; j++) {
-        tempTile = this.tempTiles[i][j];
+      for (var j = 0; j < this.tiles[i].length; j++) {
+        tempTile = this.tiles[i][j];
         if (typeof tempTile.check === 'function') {
           tempTile = tempTile.check();
         }
